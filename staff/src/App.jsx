@@ -1,122 +1,83 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Info from './components/Info';
+import Filters from './components/Filters';
+import EmployeeList from './components/EmployeeList';
+import CreateEmployee from './components/CreateEmployee';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState([
+    { name: 'Mike', salary: 1000, increase: false, rise: true, id: 1 },
+    { name: 'Jack', salary: 1200, increase: true, rise: false, id: 2 },
+    { name: 'John', salary: 800, increase: false, rise: false, id: 3 },
+  ]);
+
+  const [term, setTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+
+  const deleteItem = (id) => {
+    setData(data => data.filter(item => item.id !== id));
+  };
+
+  const addItem = (name, salary) => {
+    const newItem = {
+      name,
+      salary,
+      increase: false,
+      rise: false,
+      id: Date.now()
+    };
+    setData(data => [...data, newItem]);
+  };
+
+  const onToggleProp = (id, prop) => {
+    setData(data => data.map(item => {
+      if (item.id === id) {
+        return { ...item, [prop]: !item[prop] };
+      }
+      return item;
+    }));
+  };
+
+  const searchEmp = (items, term) => {
+    if (term.length === 0) return items;
+    return items.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
+  };
+
+  const filterPost = (items, filter) => {
+    switch (filter) {
+      case 'rise':
+        return items.filter(item => item.rise);
+      case 'moreThen1000':
+        return items.filter(item => item.salary > 1000);
+      default:
+        return items;
+    }
+  };
+
+  const employeesCount = data.length;
+  const increasedCount = data.filter(item => item.increase).length;
+  const visibleData = filterPost(searchEmp(data, term), filter);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="max-w-4xl mx-auto p-6 font-sans">
+      <Info employeesCount={employeesCount} increasedCount={increasedCount} />
 
-      <div className="ticks"></div>
+      <Filters 
+        term={term} 
+        onUpdateSearch={setTerm}
+        filter={filter}
+        onUpdateFilter={setFilter}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <EmployeeList 
+        data={visibleData}
+        onDelete={deleteItem}
+        onToggleProp={onToggleProp}
+      />
+      
+      <CreateEmployee onAdd={addItem} />
+    </div>
+  );
 }
 
-export default App
+export default App;
