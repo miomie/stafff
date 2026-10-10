@@ -2,19 +2,17 @@ import { AiFillDollarCircle } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 
 const EmployeeItem = ({ name, salary, increase, rise, onDelete, onToggleProp }) => {
-  // Логика для имени (повышение): желтый цвет + жирный текст
-  let nameStyle = { color: '#1f2937' }; // по умолчанию темно-серый
+  let nameStyle = { color: '#1f2937' };
   let isNameBold = false;
 
   if (rise) {
-    nameStyle = { color: '#eab308' }; // желтый/золотистый
+    nameStyle = { color: '#eab308' };
     isNameBold = true;
   }
 
-  // Логика для зарплаты (премия): желтый цвет
-  let salaryStyle = { color: '#374151' }; // по умолчанию темно-серый
+  let salaryStyle = { color: '#374151' };
   if (increase) {
-    salaryStyle = { color: '#eab308' }; // желтый/золотистый
+    salaryStyle = { color: '#eab308' };
   }
 
   return (
