@@ -11,23 +11,23 @@ function App() {
     { name: 'John', salary: 800, increase: false, rise: false, id: 3 },
   ]);
 
-//стейты для поиска и фильтров кнопок
+  //стейты для поиска и фильтров кнопок
   const [term, setTerm] = useState('');
   const [filter, setFilter] = useState('all');
 
-//удаляем
+  //удаляем
   const deleteItem = (id) => {
-  const updatedData = data.filter((item) => {
-    if (item.id !== id) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-  setData(updatedData);
-};
+    const updatedData = data.filter((item) => {
+      if (item.id !== id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setData(updatedData);
+  };
 
-//добавляем нового сотрудника и выводл в консоль
+  //добавляем нового сотрудника и выводл в консоль
   const addItem = (name, salary) => {
     const newItem = {
       name,
@@ -41,29 +41,29 @@ function App() {
     console.log("Полный массив работников:", updatedData);
   };
 
-//менять его премию ил поыышение
-const onToggleProp = (id, prop) => {
-  const updatedData = data.map((item) => {
-    if (item.id === id) {
-      const updatedItem = { ...item };
-      updatedItem[prop] = !item[prop];
-      return updatedItem;
-    } else {
-      return item;
-    }
-  });
-  setData(updatedData);
-};
+  //менять его премию или поыышение
+  const onToggleProp = (id, prop) => {
+    const updatedData = data.map((item) => {
+      if (item.id === id) {
+        const updatedItem = { ...item };
+        updatedItem[prop] = !item[prop];
+        return updatedItem;
+      } else {
+        return item;
+      }
+    });
+    setData(updatedData);
+  };
 
-//поиск и фильтры кнопочки
-const searchEmp = (items, term) => {
-  if (term.length === 0) {
-    return items;
-  }
-  return items.filter((item) => {
-    return item.name.toLowerCase().includes(term.toLowerCase());
-  });
-};
+  //поиск и фильтры кнопочки
+  const searchEmp = (items, term) => {
+    if (term.length === 0) {
+      return items;
+    }
+    return items.filter((item) => {
+      return item.name.toLowerCase().includes(term.toLowerCase());
+    });
+  };
   const filterPost = (items, filter) => {
     switch (filter) {
       case 'rise':
@@ -81,16 +81,16 @@ const searchEmp = (items, term) => {
   return (
     <div className="max-w-4xl mx-auto p-6 font-sans">
       <Info employeesCount={employeesCount} increasedCount={increasedCount} />
-      <Filters 
-        term={term} 
-        onUpdateSearch={setTerm} 
-        filter={filter} 
-        onUpdateFilter={setFilter} 
+      <Filters
+        term={term}
+        onUpdateSearch={setTerm}
+        filter={filter}
+        onUpdateFilter={setFilter}
       />
-      <EmployeeList 
-        data={visibleData} 
-        onDelete={deleteItem} 
-        onToggleProp={onToggleProp} 
+      <EmployeeList
+        data={visibleData}
+        onDelete={deleteItem}
+        onToggleProp={onToggleProp}
       />
       <CreateEmployee onAdd={addItem} />
     </div>
