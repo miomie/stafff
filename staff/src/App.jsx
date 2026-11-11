@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import Info from './components/Info';
-import Filters from './components/Filters';
-import EmployeeList from './components/EmployeeList';
-import CreateEmployee from './components/CreateEmployee';
+import { useState } from "react";
+import Info from "./components/Info";
+import Filters from "./components/Filters";
+import EmployeeList from "./components/EmployeeList";
+import CreateEmployee from "./components/CreateEmployee";
 
 function App() {
   const [data, setData] = useState([
-    { name: 'Mike', salary: 1000, increase: false, rise: true, id: 1 },
-    { name: 'Jack', salary: 1200, increase: true, rise: false, id: 2 },
-    { name: 'John', salary: 800, increase: false, rise: false, id: 3 },
+    { name: "Mike", salary: 1000, increase: false, rise: true, id: 1 },
+    { name: "Jack", salary: 1200, increase: true, rise: false, id: 2 },
+    { name: "John", salary: 800, increase: false, rise: false, id: 3 },
   ]);
 
   //стейты для поиска и фильтров кнопок
-  const [term, setTerm] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [term, setTerm] = useState("");
+  const [filter, setFilter] = useState("all");
 
   //удаляем
   const deleteItem = (id) => {
@@ -34,7 +34,7 @@ function App() {
       salary,
       increase: false,
       rise: false,
-      id: Date.now()
+      id: Date.now(),
     };
     const updatedData = [...data, newItem];
     setData(updatedData);
@@ -66,17 +66,17 @@ function App() {
   };
   const filterPost = (items, filter) => {
     switch (filter) {
-      case 'rise':
-        return items.filter(item => item.rise);
-      case 'moreThen1000':
-        return items.filter(item => item.salary > 1000);
+      case "rise":
+        return items.filter((item) => item.rise);
+      case "moreThen1000":
+        return items.filter((item) => item.salary > 1000);
       default:
         return items;
     }
   };
 
   const employeesCount = data.length;
-  const increasedCount = data.filter(item => item.increase).length;
+  const increasedCount = data.filter((item) => item.increase).length;
   const visibleData = filterPost(searchEmp(data, term), filter);
   return (
     <div className="max-w-4xl mx-auto p-6 font-sans">
