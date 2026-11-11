@@ -23,23 +23,23 @@ function CreateEmployee(props) {
     <div className="bg-[#385579] p-6 rounded-lg shadow-md text-white">
       <h3 className="text-xl font-bold mb-4">Добавьте нового сотрудника</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
           <input
             type="text"
-            className="flex-1 px-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
+            className="w-full sm:flex-1 px-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
             placeholder="Как его зовут?"
             {...register("name")}
           />
           <input
             type="number"
-            className="w-48 px-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
+            className="w-full sm:w-48 px-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none"
             placeholder="З/П в $?"
             step="500"
             {...register("salary")}
           />
           <button
             type="submit"
-            className="px-6 py-2 bg-transparent border border-white text-white rounded-lg hover:bg-white hover:text-[#385579] font-medium cursor-pointer"
+            className="w-full sm:w-auto px-6 py-2 bg-transparent border border-white text-white rounded-lg hover:bg-white hover:text-[#385579] font-medium cursor-pointer"
           >
             Добавить
           </button>
